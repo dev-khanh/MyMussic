@@ -5613,6 +5613,11 @@ react-native-svg@^12.1.0:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
 
+react-native-track-player@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-track-player/-/react-native-track-player-1.1.4.tgz#b8d2b76c57e382d02aa23f9bd70f5b8c1ea42c30"
+  integrity sha512-6+fK+DeFPX+1v+GL+BFnvqC6pDElAps9cgDgVaMRVy/vgJIezWWWQltALBWpstQetUlR0kp27/CZWu6iJUNi9Q==
+
 react-native@0.63.2:
   version "0.63.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.63.2.tgz#eaebf3430577b37fbd66ef228a86b3408259ef8e"

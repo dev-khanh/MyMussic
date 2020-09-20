@@ -1,5 +1,6 @@
-import React from 'react'
-import Svg, { Path } from 'react-native-svg'
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import Svg, { Path } from 'react-native-svg';
 
 export function Play() {
 	return (
@@ -13,5 +14,5 @@ export function Play() {
 				fill="#fff"
 			/>
 		</Svg>
-	)
+	);
 }

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { PureComponent, useEffect, useMemo, useState } from 'react';
 // import {useSelector, useDispatch} from 'react-redux';
 import {
 	View,
@@ -31,8 +31,7 @@ const sizes = {
 	mini: 90,
 };
 
-function Record({ positionY, miniPos, playing }) {
-	console.log(playing);
+class Record extends PureComponent {
 	// const [playing, setPlaying] = useState(false);
 
 	//   const dispatch = useDispatch();
@@ -65,84 +64,81 @@ function Record({ positionY, miniPos, playing }) {
 	//     }
 	//   }, [state]);
 	//   console.log(state, '   -   ', track, '    -    ', playing);
-	const ranges = {
-		layout: [sizes.default, sizes.mini],
-		tLayout: [width - 140, 70],
-		translateY: [Platform.OS === 'ios' ? 100 : 80, 5],
-		translateX: [-20, -5],
-		miniLayout: [50, 20],
-		right: [(width - (width - 60)) / 2, 0],
-		radius: [sizes.default / 2, sizes.mini / 2],
-	};
+	render() {
+		const { positionY, miniPos, playing, setPlaying } = this.props;
+		const ranges = {
+			layout: [sizes.default, sizes.mini],
+			tLayout: [width - 140, 70],
+			translateY: [Platform.OS === 'ios' ? 100 : 80, 5],
+			translateX: [-20, -5],
+			miniLayout: [50, 20],
+			right: [(width - (width - 60)) / 2, 0],
+			radius: [sizes.default / 2, sizes.mini / 2],
+		};
 
-	for (const key in ranges) {
-		ranges[key] = positionY.interpolate({
-			inputRange: [0, miniPos],
-			outputRange: ranges[key],
+		for (const key in ranges) {
+			ranges[key] = positionY.interpolate({
+				inputRange: [0, miniPos],
+				outputRange: ranges[key],
+			});
+		}
+
+		const borderWidth = positionY.interpolate({
+			inputRange: [0, 100, miniPos],
+			outputRange: [10, 0, 0],
 		});
-	}
 
-	const borderWidth = positionY.interpolate({
-		inputRange: [0, 100, miniPos],
-		outputRange: [10, 0, 0],
-	});
+		const miniControllerOpacity = positionY.interpolate({
+			inputRange: [0, miniPos - 100, miniPos],
+			outputRange: [0, 0, 1],
+		});
 
-	const miniControllerOpacity = positionY.interpolate({
-		inputRange: [0, miniPos - 100, miniPos],
-		outputRange: [0, 0, 1],
-	});
-
-	const innerCircle = positionY.interpolate({
-		inputRange: [0, miniPos],
-		outputRange: [1, 0],
-	});
-	if (playing) {
-		Animated.loop(
-			Animated.sequence([
-				Animated.timing(spinValue, {
-					toValue: 1,
-					duration: 10000,
-					useNativeDriver: false,
-					easing: Easing.linear,
-				}),
-			]),
-		).start();
-	} else {
-		spinValue.stopAnimation();
-		spinValue.extractOffset();
-	}
-	return (
-		<TouchableWithoutFeedback
-			onPress={() => {
-				if (positionY._value === miniPos) {
-					//   dispatch(setUserPlaying(!playing));
-					// setPlaying(!playing);
-
-				}
-			}}>
-			<Animated.View style={styles.animatedViews(ranges)}>
-				<Animated.View style={styles.AnimationView(ranges)}>
-					<View>
-						<Image
-							style={styles.AnimationImages}
-							source={require('../images/xxxxxxxxx.jpg')}
-						/>
-						<Animated.View
-							style={styles.AnimationViewChild(innerCircle)}>
-							<View
-								style={styles.ViewChildAnimaytion}
+		const innerCircle = positionY.interpolate({
+			inputRange: [0, miniPos],
+			outputRange: [1, 0],
+		});
+		if (playing) {
+			Animated.loop(
+				Animated.sequence([
+					Animated.timing(spinValue, {
+						toValue: 1,
+						duration: 10000,
+						useNativeDriver: false,
+						easing: Easing.linear,
+					}),
+				]),
+			).start();
+		} else {
+			spinValue.stopAnimation();
+			spinValue.extractOffset();
+		}
+		return (
+			<TouchableWithoutFeedback
+				onPress={() => setPlaying(!playing)}>
+				<Animated.View style={styles.animatedViews(ranges)}>
+					<Animated.View style={styles.AnimationView(ranges)}>
+						<View>
+							<Image
+								style={styles.AnimationImages}
+								source={require('../images/xxxxxxxxx.jpg')}
 							/>
-						</Animated.View>
-					</View>
+							<Animated.View
+								style={styles.AnimationViewChild(innerCircle)}>
+								<View
+									style={styles.ViewChildAnimaytion}
+								/>
+							</Animated.View>
+						</View>
+					</Animated.View>
+					<Animated.View style={styles.animatedViewStyles(ranges, borderWidth)} />
+					<Animated.View
+						style={[styles.miniControl, { opacity: miniControllerOpacity }]}>
+						{playing ? <Pause /> : <Play />}
+					</Animated.View>
 				</Animated.View>
-				<Animated.View style={styles.animatedViewStyles(ranges, borderWidth)} />
-				<Animated.View
-					style={[styles.miniControl, { opacity: miniControllerOpacity }]}>
-					{playing ? <Pause /> : <Play />}
-				</Animated.View>
-			</Animated.View>
-		</TouchableWithoutFeedback>
-	);
+			</TouchableWithoutFeedback>
+		);
+	}
 }
 
 const styles = {

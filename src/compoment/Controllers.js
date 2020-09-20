@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { PureComponent } from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 
@@ -9,74 +9,75 @@ import { View, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-na
 
 import { Play, Pause, Skip, Replay, Shuffle } from '../Icons';
 
-function Controller() {
-	// const dispatch = useDispatch();
-	// const { playing, shuffle, replay } = useSelector((state) => state.Player);
+class Controller extends PureComponent {
+	render() {
+		// const dispatch = useDispatch();
+		// const { playing, shuffle, replay } = useSelector((state) => state.Player);
 
-	const onClickPlayPause = () => {
-		// dispatch(setUserPlaying(!playing));
-	};
+		const onClickPlayPause = () => {
+			// dispatch(setUserPlaying(!playing));
+		};
 
-	const selectFill = (bool) => {
-		return bool ? 'rgb(225, 47, 129)' : 'rgb(255, 255, 255)';
-	};
+		const selectFill = (bool) => {
+			return bool ? 'rgb(225, 47, 129)' : 'rgb(255, 255, 255)';
+		};
 
-	const onPressShuffle = () => {
-		// dispatch(setShuffle(!shuffle));
-	};
+		const onPressShuffle = () => {
+			// dispatch(setShuffle(!shuffle));
+		};
 
-	const onPressReplay = () => {
-		// dispatch(setReplay(!replay));
-	};
+		const onPressReplay = () => {
+			// dispatch(setReplay(!replay));
+		};
 
-	const onPressPrev = async () => {
-		// const time = await TrackPlayer.getPosition();
+		const onPressPrev = async () => {
+			// const time = await TrackPlayer.getPosition();
 
-		// if (time <= 3) {
-		// 	TrackPlayer.skipToPrevious();
-		// } else {
-		// 	TrackPlayer.seekTo(0);
-		// }
-	};
+			// if (time <= 3) {
+			// 	TrackPlayer.skipToPrevious();
+			// } else {
+			// 	TrackPlayer.seekTo(0);
+			// }
+		};
 
-	const onPressNext = () => {
-		// TrackPlayer.skipToNext();
-	};
+		const onPressNext = () => {
+			// TrackPlayer.skipToNext();
+		};
 
-	return (
-		<View style={styles.container}>
-			<TouchableWithoutFeedback onPress={onPressShuffle}>
-				<View style={styles.shuffle}>
-					{/* <Shuffle fill={selectFill(shuffle)} /> */}
-					<Shuffle />
-				</View>
-			</TouchableWithoutFeedback>
+		return (
+			<View style={styles.container}>
+				<TouchableWithoutFeedback onPress={onPressShuffle}>
+					<View style={styles.shuffle}>
+						{/* <Shuffle fill={selectFill(shuffle)} /> */}
+						<Shuffle />
+					</View>
+				</TouchableWithoutFeedback>
 
-			<TouchableWithoutFeedback onPress={onPressReplay}>
-				<View style={styles.replay}>
-					{/* <Replay fill={selectFill(replay)} /> */}
-					<Replay />
-				</View>
-			</TouchableWithoutFeedback>
+				<TouchableWithoutFeedback onPress={onPressReplay}>
+					<View style={styles.replay}>
+						{/* <Replay fill={selectFill(replay)} /> */}
+						<Replay />
+					</View>
+				</TouchableWithoutFeedback>
 
-			<TouchableOpacity onPress={onPressPrev}>
-				<View style={styles.prev}>
-					<Skip />
-				</View>
-			</TouchableOpacity>
+				<TouchableOpacity onPress={onPressPrev}>
+					<View style={styles.prev}>
+						<Skip />
+					</View>
+				</TouchableOpacity>
 
-			<TouchableWithoutFeedback onPress={onClickPlayPause}>
-				{/* <View style={styles.playPause}>{playing ? <Pause /> : <Play />}</View> */}
-				<View style={styles.playPause}>{<Play />}</View>
-			</TouchableWithoutFeedback>
+				<TouchableWithoutFeedback onPress={() => this.props.onClickPlayPause(!this.props.playing)}>
+					<View style={styles.playPause}>{this.props.playing ? <Pause /> : <Play />}</View>
+				</TouchableWithoutFeedback>
 
-			<TouchableOpacity onPress={onPressNext}>
-				<View style={styles.next}>
-					<Skip />
-				</View>
-			</TouchableOpacity>
-		</View>
-	);
+				<TouchableOpacity onPress={onPressNext}>
+					<View style={styles.next}>
+						<Skip />
+					</View>
+				</TouchableOpacity>
+			</View>
+		);
+	}
 }
 
 export default Controller;

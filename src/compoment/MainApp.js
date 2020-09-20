@@ -9,7 +9,8 @@ export default class MainApp extends PureComponent {
                 <TouchableOpacity onPress={() => this.props.setOnClickDispatchEvent()}>
                     <Text>{this.props.name}</Text>
                 </TouchableOpacity>
-                <ScreenHome playing={this.props.playing} />
+                <ScreenHome playing={this.props.playing} setPlaying={(d) => this.props.setEventClickPlaying(d)}
+                    onClickPlayPause={(d) => this.props.onClickPlayPause(d)} />
             </View>
         );
     }
