@@ -29,7 +29,7 @@ class ScreenHome extends PureComponent {
                 <Slider {...animation} />
                 <Record {...animation} setPlaying={(d) => this.props.setPlaying(d)} />
                 <Title {...animation} />
-                <Controllers onClickPlayPause={(d) => this.props.onClickPlayPause(d)} playing={playing} />
+                <Controllers onClickPlayPause={(d) => this.props.onClickPlayPause(d)} playing={playing} onPressPrev={this.props.onPressPrev} onPressNext={this.props.onPressNext}/>
                 <Handle {...animation} {..._panResponder.panHandlers} />
                 {Platform.OS === 'android' && <AndroidStatusBar {...animation} />}
             </Animated.View>

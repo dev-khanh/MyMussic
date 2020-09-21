@@ -60,7 +60,7 @@ class Controller extends PureComponent {
 					</View>
 				</TouchableWithoutFeedback>
 
-				<TouchableOpacity onPress={onPressPrev}>
+				<TouchableOpacity onPress={this.props.onPressPrev}>
 					<View style={styles.prev}>
 						<Skip />
 					</View>
@@ -70,7 +70,7 @@ class Controller extends PureComponent {
 					<View style={styles.playPause}>{this.props.playing ? <Pause /> : <Play />}</View>
 				</TouchableWithoutFeedback>
 
-				<TouchableOpacity onPress={onPressNext}>
+				<TouchableOpacity onPress={this.props.onPressNext}>
 					<View style={styles.next}>
 						<Skip />
 					</View>
