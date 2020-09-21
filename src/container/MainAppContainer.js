@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import MainApp from '../compoment/MainApp';
-import {PLAYING} from '../action/ActionType';
+import { PLAYING } from '../action/ActionType';
 import TrackPlayer from 'react-native-track-player';
 import playlistData from '../compoment/Demo/playlist.json';
-
 const connectState = (state) => {
   return {
     name: state.reducerState.name,
@@ -26,10 +25,16 @@ const handlePlayPause = async () => {
     }
   }
 };
+const handleSplice = (item, index) => {
+  playlistData.splice(0, 0, item);
+  playlistData.splice(index + 1, 1);
+  console.log(playlistData);
+  return playlistData;
+};
 const conectStateDispatch = (dispatch) => {
   return {
     setOnClickDispatchEvent: () => {
-      dispatch({type: 'SET_ON_CLICK'});
+      dispatch({ type: 'SET_ON_CLICK' });
     },
     setup: async () => {
       await TrackPlayer.setupPlayer({});
@@ -50,28 +55,27 @@ const conectStateDispatch = (dispatch) => {
     },
     setEventClickPlaying: async (setPlaying) => {
       handlePlayPause();
-      dispatch({type: PLAYING, playing: setPlaying});
+      dispatch({ type: PLAYING, playing: setPlaying });
     },
     onClickPlayPause: async (setPlaying) => {
       handlePlayPause();
-      dispatch({type: PLAYING, playing: setPlaying});
+      dispatch({ type: PLAYING, playing: setPlaying });
     },
     onPressPrev: async () => {
       try {
         await TrackPlayer.skipToPrevious();
-      } catch (_) {}
+      } catch (_) { }
     },
     onPressNext: async () => {
       try {
         await TrackPlayer.skipToNext();
-      } catch (_) {}
+      } catch (_) { }
     },
-    setOnItemClickPlay: async (item) => {
-      console.log(item);
+    setOnItemClickPlay: async (item, index) => {
       await TrackPlayer.reset();
-      await TrackPlayer.add(item);
+      await TrackPlayer.add(playlistData.find(e => e.id === item.id));
       await TrackPlayer.play();
-      dispatch({type: PLAYING, playing: true});
+      dispatch({ type: PLAYING, playing: true });
     },
   };
 };

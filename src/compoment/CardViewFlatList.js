@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 import DATA from './Demo/playlist.json';
 export default class CardViewFlatList extends PureComponent {
   render() {
@@ -16,17 +16,17 @@ export default class CardViewFlatList extends PureComponent {
       <View style={styles.container}>
         <FlatList
           data={DATA}
-          renderItem={(item) => this.renderItem(item.item)}
+          renderItem={(item) => this.renderItem(item.item, item.index)}
           keyExtractor={(item) => item.id}
         />
       </View>
     );
   }
-  renderItem = (item) => {
+  renderItem = (item, index) => {
     return (
       <View style={styles.containerCardPDFCardList}>
         <View style={styles.cardPDF}>
-          <TouchableOpacity onPress={() => this.props.setOnItemClickPlay(item)}>
+          <TouchableOpacity onPress={() => this.props.setOnItemClickPlay(item, index)}>
             <View style={styles.row}>
               <Image
                 style={styles.profileImgCardPDF}
