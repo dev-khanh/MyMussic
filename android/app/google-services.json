@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "694177808831",
+    "firebase_url": "https://mymussic-7a951.firebaseio.com",
+    "project_id": "mymussic-7a951",
+    "storage_bucket": "mymussic-7a951.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694177808831:android:8fc75edb1a9dd3e6a7610a",
+        "android_client_info": {
+          "package_name": "com.mymussic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694177808831-gb1bntvuu6k71c6t8uma57sgvkvkfsoa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mymussic",
+            "certificate_hash": "8f50c60de505ab0452325cc84af52e5f573ef95e"
+          }
+        },
+        {
+          "client_id": "694177808831-nv1rus45thh8k3rsplp5cajcldf4gpgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANQ7-X6W2WYwEOiqdW8-Vlk2LyA_cL00M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694177808831-nv1rus45thh8k3rsplp5cajcldf4gpgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
