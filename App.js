@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 // import MainAppContainer from './src/container/MainAppContainer';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './src/reducers';
 import database from '@react-native-firebase/database';
 import MainNavigation from './src/utils/MainNavigation';
-import {utils} from '@react-native-firebase/app';
+import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
+import UpdateContaner from './src/container/UpdateContainer';
 var RNFS = require('react-native-fs');
 
 export default class App extends PureComponent {
@@ -35,31 +36,31 @@ export default class App extends PureComponent {
     //       }
     //     },
     //   );
-    const reference = storage().ref('xxxx.jpg');
-
-    RNFS.readDir(RNFS.ExternalStorageDirectoryPath)
-      .then( async (result) => {
-        console.log('GOT RESULT', result);
-        // await reference.putFile(result);
-        return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-      })
-      .then((statResult) => {
-        if (statResult[0].isFile()) {
-          return RNFS.readFile(statResult[1], 'utf8');
-        }
-        return 'no file';
-      })
-      .then((contents) => {
-        console.log(contents);
-      })
-      .catch((err) => {
-        console.log(err.message, err.code);
-      });
+    // const reference = storage().ref('xxxx.jpg');
+    // await reference.putFile('/sdcard/Download/xxxxx.jpg');
+    // RNFS.readDir(RNFS.ExternalStorageDirectoryPath)
+    //   .then(async (result) => {
+    //     console.log('GOT RESULT', result);
+    //     // await reference.putFile(result);
+    //     return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+    //   })
+    //   .then((statResult) => {
+    //     if (statResult[0].isFile()) {
+    //       return RNFS.readFile(statResult[1], 'utf8');
+    //     }
+    //     return 'no file';
+    //   })
+    //   .then((contents) => {
+    //     console.log(contents);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message, err.code);
+    //   });
   }
   render() {
     return (
       <Provider store={store}>
-        <MainNavigation />
+        <UpdateContaner />
       </Provider>
     );
   }
