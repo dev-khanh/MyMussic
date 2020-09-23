@@ -1,66 +1,114 @@
 /* eslint-disable prettier/prettier */
-import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
-import storage from '@react-native-firebase/storage';
-import DocumentPicker from 'react-native-document-picker';
-
+import React, {PureComponent} from 'react';
+import {
+  View,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  Dimensions,
+  Button,
+} from 'react-native';
+const {width} = Dimensions.get('window');
 export default class UploadDatabase extends PureComponent {
-  componentDidMount() {
-  }
   render() {
+    const {
+      fileName,
+      pathAudio,
+      pathImages,
+      valueTitle,
+      valueSubTitle,
+      setOnClickChoseImages,
+      setOnClickChooseAudio,
+      onChangeTextTitle,
+      onChangeTextSubTitile,
+      setOnclickUpdateFile,
+    } = this.props;
     return (
-      <View>
-        <TouchableOpacity onPress={() => this.setOnClickChoseImages()}>
-          <Text>ssssssssssssssssssssssssssssssss</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.setOnClickChooseAudio()}>
-          <Text>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</Text>
-        </TouchableOpacity>
+      <View style={styles.container}>
+        <View style={styles.viewContainer}>
+          <TouchableOpacity onPress={() => setOnClickChoseImages()}>
+            <Image
+              source={{
+                uri:
+                  pathImages === ''
+                    ? 'https://static.thenounproject.com/png/1213473-200.png'
+                    : pathImages,
+              }}
+              style={styles.imagesStyle}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setOnClickChooseAudio()}>
+            <Image
+              source={{
+                uri:
+                  pathAudio === ''
+                    ? 'https://cdn.onlinewebfonts.com/svg/img_400302.png'
+                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Light_green_check.svg/600px-Light_green_check.svg.png',
+              }}
+              style={styles.imagesStyle}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.viewTextInputTitle}>
+          <TextInput
+            placeholder="Title ..."
+            style={styles.textInput}
+            onChangeText={(text) => onChangeTextTitle(text)}
+            value={valueTitle}
+          />
+          <TextInput
+            placeholder="Sub Title ..."
+            style={styles.textInput}
+            onChangeText={(text) => onChangeTextSubTitile(text)}
+            value={valueSubTitle}
+          />
+          <View style={styles.viewContainerPress}>
+            <View style={styles.viewMarginTop}>
+              <Button
+                title="Update File"
+                onPress={() =>
+                  setOnclickUpdateFile(
+                    pathImages,
+                    valueTitle,
+                    valueSubTitle,
+                    pathAudio,
+                    fileName,
+                  )
+                }
+              />
+            </View>
+          </View>
+        </View>
       </View>
     );
   }
-  makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-  async setOnClickChooseAudio() {
-
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.audio],
-      });
-      // console.log(
-      //   res.uri,
-      //   res.type, // mime type
-      //   res.name,
-      //   res.size
-      // );
-      // console.log(res.name);
-      const reference = storage().ref('audio/' + res.name);
-
-      await reference.putFile('file:///sdcard/com.yy.hiyo/audio/soundConfig/' + res.name + '.mp3');
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        // User cancelled the picker, exit any dialogs or menus and move on
-      } else {
-        throw err;
-      }
-    }
-  }
-  setOnClickChoseImages() {
-    const reference = storage().ref('images/' + this.makeid(5));
-    ImagePicker.openPicker({
-      multiple: false,
-    }).then(async image => {
-      console.log(image.path);
-      await reference.putFile(image.path);
-    });
-  }
 }
-
+const styles = {
+  container: {
+    padding: 20,
+    flex: 1,
+  },
+  viewContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 10,
+  },
+  imagesStyle: {
+    width: width * 0.4,
+    height: 170,
+  },
+  viewContainerPress: {
+    width: width * 0.9,
+    alignItems: 'flex-end',
+  },
+  viewMarginTop: {marginTop: 10},
+  viewTextInputTitle: {
+    flex: 1,
+    marginTop: 10,
+  },
+};
