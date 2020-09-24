@@ -1,4 +1,5 @@
 import {connect} from 'react-redux';
+import {Alert} from 'react-native';
 import LoginUser from '../compoment/LoginUser';
 import {EMAIL, PASS} from '../action/ActionType';
 const connectState = (state) => {
@@ -16,10 +17,10 @@ const connectDispatchState = (dispatch) => {
         } else if (email === 'admin' && password === '123456') {
           navigation.navigate('Update');
         } else {
-          alert('Tên đăng nhập or mặt khẩu không đúng !!!');
+          Alert.alert('Tên đăng nhập or mặt khẩu không đúng !!!');
         }
       } else {
-        alert('Giá trị nhập vào không được rỗng !!!');
+        Alert.alert('Giá trị nhập vào không được rỗng !!!');
       }
     },
     setStateEmail: (text) => {

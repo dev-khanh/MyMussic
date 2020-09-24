@@ -14,7 +14,11 @@ function MainNavigation() {
           component={LoginUserContainer}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Main" component={MainAppContainer} />
+        <Stack.Screen
+          name="Main"
+          component={MainAppContainer}
+          options={{headerShown: false}}
+        />
         <Stack.Screen name="Update" component={UpdateContaner} />
       </Stack.Navigator>
     </NavigationContainer>

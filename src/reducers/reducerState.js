@@ -1,16 +1,16 @@
 /* eslint-disable prettier/prettier */
 import {
   PLAYING,
-  SET_STATE,
   EMAIL,
   PASS,
   PATH_IMAGE,
   VALUE_TITLE,
   VALUE_SUBTITLE,
   PATH_AUDIO,
+  LONGDING,
+  MODEL,
 } from '../action/ActionType';
 let appState = {
-  name: 'devk',
   playing: false,
   email: '',
   password: '',
@@ -19,14 +19,11 @@ let appState = {
   valueSubTitle: '',
   pathAudio: '',
   fileName: '',
+  checkLongding: false,
+  modalVisible: false,
 };
 const reducerState = (state = appState, action) => {
   switch (action.type) {
-    case SET_STATE:
-      return {
-        ...state,
-        name: action.name,
-      };
     case PLAYING:
       return {
         ...state,
@@ -62,6 +59,16 @@ const reducerState = (state = appState, action) => {
       return {
         ...state,
         valueSubTitle: action.valueSubTitle,
+      };
+    case LONGDING:
+      return {
+        ...state,
+        checkLongding: action.checkLongding,
+      };
+    case MODEL:
+      return {
+        ...state,
+        modalVisible: action.modalVisible,
       };
   }
   return state;

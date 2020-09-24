@@ -1,15 +1,18 @@
 import {connect} from 'react-redux';
+import {Alert} from 'react-native';
 import UploadDatabase from '../compoment/UploadDatabase';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import FilePickerManager from 'react-native-file-picker';
 import database from '@react-native-firebase/database';
-
+import {CallEventData, DeleteEventData} from '../action';
 import {
   PATH_IMAGE,
   VALUE_TITLE,
   VALUE_SUBTITLE,
   PATH_AUDIO,
+  LONGDING,
+  MODEL,
 } from '../action/ActionType';
 const connectState = (state) => {
   return {
@@ -18,10 +21,17 @@ const connectState = (state) => {
     valueSubTitle: state.reducerState.valueSubTitle,
     pathAudio: state.reducerState.pathAudio,
     fileName: state.reducerState.fileName,
+    checkLongding: state.reducerState.checkLongding,
+    arraysBloc: state.reducerDatabase.arraysBloc,
+    modalVisible: state.reducerState.modalVisible,
   };
 };
 const connectDispatchState = (dispatch) => {
   return {
+    setLongdding: () => {
+      dispatch(CallEventData());
+      dispatch({type: LONGDING, checkLongding: true});
+    },
     setOnClickChoseImages: () => {
       ImagePicker.openPicker({
         multiple: false,
@@ -62,7 +72,7 @@ const connectDispatchState = (dispatch) => {
           //     });
           //   }
         } else {
-          alert('Yêu cầu chọn đúng file nhạc !!!');
+          Alert.alert('Yêu cầu chọn đúng file nhạc !!!');
         }
       });
     },
@@ -79,6 +89,7 @@ const connectDispatchState = (dispatch) => {
       pathAudio,
       fileName,
     ) => {
+      dispatch({type: LONGDING, checkLongding: false});
       if (
         pathImages !== '' &&
         valueTitle !== '' &&
@@ -133,15 +144,39 @@ const connectDispatchState = (dispatch) => {
                 });
                 dispatch({type: VALUE_TITLE, valueTitle: ''});
                 dispatch({type: VALUE_SUBTITLE, valueSubTitle: ''});
-                alert('Update Success !!!');
+                dispatch({type: LONGDING, checkLongding: true});
+                Alert.alert('Update Success !!!');
                 check = 0;
               }
             },
           );
         }
       } else {
-        alert('Yêu cầu nhập đây đủ thông tin !!!');
+        Alert.alert('Yêu cầu nhập đây đủ thông tin !!!');
       }
+    },
+    createTwoButtonAlert: (title, key, modalVisible) =>
+      Alert.alert(
+        'Bạn có muốn xóa không ???',
+        title,
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              dispatch({type: MODEL, modalVisible: !modalVisible});
+              dispatch(DeleteEventData(key));
+            },
+          },
+        ],
+        {cancelable: false},
+      ),
+    dispathModalVisible: (visible) => {
+      dispatch({type: MODEL, modalVisible: visible});
     },
   };
 };
