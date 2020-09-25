@@ -1,20 +1,21 @@
 /* eslint-disable prettier/prettier */
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import MainApp from '../compoment/MainApp';
-import { PLAYING } from '../action/ActionType';
+import {PLAYING} from '../action/ActionType';
 import TrackPlayer from 'react-native-track-player';
 import playlistData from '../compoment/Demo/playlist.json';
+import {CallEventData} from '../action';
 const connectState = (state) => {
   return {
-    name: state.reducerState.name,
+    arraysBloc: state.reducerDatabase.arraysBloc,
     playing: state.reducerState.playing,
   };
 };
-const handlePlayPause = async () => {
+const handlePlayPause = async (arraysBloc) => {
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack == null) {
     await TrackPlayer.reset();
-    await TrackPlayer.add(playlistData);
+    await TrackPlayer.add(arraysBloc);
     await TrackPlayer.play();
   } else {
     const playbackState = await TrackPlayer.getState();
@@ -34,9 +35,10 @@ const handleSplice = (item, index) => {
 const conectStateDispatch = (dispatch) => {
   return {
     setOnClickDispatchEvent: () => {
-      dispatch({ type: 'SET_ON_CLICK' });
+      dispatch({type: 'SET_ON_CLICK'});
     },
     setup: async () => {
+      dispatch(CallEventData());
       await TrackPlayer.setupPlayer({});
       await TrackPlayer.updateOptions({
         stopWithApp: true,
@@ -53,29 +55,31 @@ const conectStateDispatch = (dispatch) => {
         ],
       });
     },
-    setEventClickPlaying: async (setPlaying) => {
-      handlePlayPause();
-      dispatch({ type: PLAYING, playing: setPlaying });
+    setEventClickPlaying: async (setPlaying, arraysBloc) => {
+      console.log(setPlaying);
+      console.log(arraysBloc);
+      handlePlayPause(arraysBloc);
+      dispatch({type: PLAYING, playing: setPlaying});
     },
-    onClickPlayPause: async (setPlaying) => {
-      handlePlayPause();
-      dispatch({ type: PLAYING, playing: setPlaying });
+    onClickPlayPause: async (setPlaying, arraysBloc) => {
+      handlePlayPause(arraysBloc);
+      dispatch({type: PLAYING, playing: setPlaying});
     },
     onPressPrev: async () => {
       try {
         await TrackPlayer.skipToPrevious();
-      } catch (_) { }
+      } catch (_) {}
     },
     onPressNext: async () => {
       try {
         await TrackPlayer.skipToNext();
-      } catch (_) { }
+      } catch (_) {}
     },
     setOnItemClickPlay: async (item, index) => {
       await TrackPlayer.reset();
-      await TrackPlayer.add(playlistData.find(e => e.id === item.id));
+      await TrackPlayer.add(item);
       await TrackPlayer.play();
-      dispatch({ type: PLAYING, playing: true });
+      dispatch({type: PLAYING, playing: true});
     },
   };
 };

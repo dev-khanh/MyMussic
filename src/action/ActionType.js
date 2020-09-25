@@ -7,5 +7,9 @@ export const PATH_IMAGE = 'PATH_IMAGE';
 export const VALUE_TITLE = 'VALUE_TITLE';
 export const VALUE_SUBTITLE = 'VALUE_SUBTITLE';
 export const PATH_AUDIO = 'PATH_AUDIO';
-
+export const EVENT_CALL_DB = 'EVENT_CALL_DB';
+export const PUT_LIST_MUSIC = 'PUT_LIST_MUSIC';
+export const LONGDING = 'LONGDING';
+export const EVENT_DELETE_DB = 'EVENT_DELETE_DB';
+export const MODEL = 'MODEL';
 

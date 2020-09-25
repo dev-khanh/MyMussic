@@ -15,17 +15,17 @@ export default class CardViewFlatList extends PureComponent {
     return (
       <View style={styles.container}>
         <FlatList
-          data={DATA}
+          data={this.props.arraysBloc}
           renderItem={(item) => this.renderItem(item.item, item.index)}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.key}
         />
       </View>
     );
   }
   renderItem = (item, index) => {
     return (
-      <View style={styles.containerCardPDFCardList}>
-        <View style={styles.cardPDF}>
+      <View style={styles.containerCardPDFCardList} >
+        <View key={item.key} style={styles.cardPDF}>
           <TouchableOpacity onPress={() => this.props.setOnItemClickPlay(item, index)}>
             <View style={styles.row}>
               <Image

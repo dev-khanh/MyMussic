@@ -12,17 +12,6 @@ var RNFS = require('react-native-fs');
 
 export default class App extends PureComponent {
   async componentDidMount() {
-    // console.log('componentDidMount');
-    database()
-      .ref('/playlist')
-      .on('value', (snapshot) => {
-        var key = Object.keys(snapshot.val());
-        for (var i = 0; i < key.length; i++) {
-          console.log('User data: ', JSON.stringify(snapshot.val()[key[i]]));
-        }
-      });
-
-
     // RNFS.readDir(RNFS.DownloadDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
     //   .then((result) => {
     //     console.log('GOT RESULT', result);
@@ -45,6 +34,7 @@ export default class App extends PureComponent {
     //   .catch((err) => {
     //     console.log(err.message, err.code);
     //   });
+
   }
 
   render() {

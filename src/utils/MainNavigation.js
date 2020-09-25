@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,7 +15,11 @@ function MainNavigation() {
           component={LoginUserContainer}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Main" component={MainAppContainer} options={{ headerShown: false }} />
+        <Stack.Screen
+          name="Main"
+          component={MainAppContainer}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Update" component={UpdateContaner} />
       </Stack.Navigator>
     </NavigationContainer>
