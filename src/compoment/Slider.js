@@ -34,7 +34,7 @@ export default function Slider({positionY, miniPos}) {
   const [duration, setDuration] = useState(null);
   //   const [changePlaybackTrack] = useState(null);
   useEffect(() => {
-        // clearInterval(interval);
+    // clearInterval(interval);
 
     //     const times = async () => {
     //     //   const current = Math.floor(await TrackPlayer.getPosition());
@@ -73,6 +73,7 @@ export default function Slider({positionY, miniPos}) {
   // changePlaybackTrack();
   const changePlaybackTrack = async () => {
     const currentDuration = await TrackPlayer.getDuration();
+    console.log(currentDuration);
     setDuration(currentDuration);
   };
 
@@ -112,7 +113,9 @@ export default function Slider({positionY, miniPos}) {
     ((percent > 100 ? 100 : percent) * 180) / 100,
     {cy, cx, r},
   );
-
+  // console.log(time + '     -     ' + timeFormat(time));
+  // console.log(duration + '        -      ' + Math.floor(duration));
+  // console.log(timeFormat(duration === null ? null : Math.floor(duration)));
   return (
     <Animated.View style={styles.animatedView(positionY, miniPos)}>
       <Text numberOfLines={1} style={moveSlider && styles.animatedText()}>

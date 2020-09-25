@@ -22,15 +22,17 @@ function* event_set_ON_Click() {
           database()
             .ref('/playlist')
             .on('value', (snapshot) => {
-              var key = Object.keys(snapshot.val());
-              for (var i = 0; i < key.length; i++) {
-                addList.push(snapshot.val()[key[i]]);
+              if (snapshot.val() !== null) {
+                var key = Object.keys(snapshot.val());
+                for (var i = 0; i < key.length; i++) {
+                  addList.push(snapshot.val()[key[i]]);
+                }
+                addList.map((d, index) => {
+                  d.key = key[index];
+                });
+                // console.log(addList);
+                resolve(addList);
               }
-              addList.map((d, index) => {
-                d.key = key[index];
-              });
-              console.log(addList);
-              resolve(addList);
             });
         });
       });

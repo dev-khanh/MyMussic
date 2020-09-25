@@ -1,9 +1,12 @@
 import {connect} from 'react-redux';
-import {Alert} from 'react-native';
+import {Alert, NativeModules} from 'react-native';
 import UploadDatabase from '../compoment/UploadDatabase';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import FilePickerManager from 'react-native-file-picker';
+import DocumentPicker from 'react-native-document-picker';
+var RNFS = require('react-native-fs');
+
 import database from '@react-native-firebase/database';
 import {CallEventData, DeleteEventData} from '../action';
 import {
@@ -14,6 +17,9 @@ import {
   LONGDING,
   MODEL,
 } from '../action/ActionType';
+
+const {ChooseFileMudules} = NativeModules;
+
 const connectState = (state) => {
   return {
     pathImages: state.reducerState.pathImages,
@@ -47,34 +53,73 @@ const connectDispatchState = (dispatch) => {
         //   .putFile(image.path);
       });
     },
-    setOnClickChooseAudio: () => {
-      const options = {
-        title: 'File Picker',
-        chooseFileButtonTitle: 'Choose File...',
-      };
-      FilePickerManager.showFilePicker(options, async (response) => {
-        // console.log('Response = ', response.path);
-        if (response.path !== undefined) {
-          dispatch({
-            type: PATH_AUDIO,
-            pathAudio: response.path,
-            fileName: response.fileName,
-          });
-          //   const reference = storage().ref('audio/' + response.fileName);
-          //   await reference.putFile(response.path);
-          //   if (response.didCancel) {
-          //     console.log('User cancelled file picker');
-          //   } else if (response.error) {
-          //     console.log('FilePickerManager Error: ', response.error);
-          //   } else {
-          //     this.setState({
-          //       file: response,
-          //     });
-          //   }
+    setOnClickChooseAudio: async () => {
+      try {
+        const res = await DocumentPicker.pick({
+          type: [DocumentPicker.types.audio],
+          //There can me more options as well
+          // DocumentPicker.types.allFiles
+          // DocumentPicker.types.images
+          // DocumentPicker.types.plainText
+          // DocumentPicker.types.audio
+          // DocumentPicker.types.pdf
+        });
+        //Printing the log realted to the file
+        console.log('res : ' + JSON.stringify(res));
+        console.log('URI : ' + res.uri);
+        console.log('Type : ' + res.type);
+        console.log('File Name : ' + res.name);
+        console.log('File Size : ' + res.size);
+        ChooseFileMudules.File(res.uri);
+        // var data = await RNFS.readFile(res.uri);
+        // console.log(data);
+        //Setting the state to show single file attributes
+        // this.setState({singleFile: res});
+        // content://com.android.providers.downloads.documents/document/msf%3A37
+        // const reference = storage().ref('audio/' + 'ssssssss');
+        // await reference.putFile('file://com.android.providers.downloads.documents/document/msf%3A37');
+      } catch (err) {
+        if (DocumentPicker.isCancel(err)) {
+          alert('Canceled from single doc picker');
         } else {
-          Alert.alert('Yêu cầu chọn đúng file nhạc !!!');
+          alert('Unknown Error: ' + JSON.stringify(err));
+          throw err;
         }
-      });
+      }
+
+      // const options = {
+      //   title: 'File Picker',
+      //   chooseFileButtonTitle: 'Choose File...',
+      // };
+      // let options = {
+      //   storageOptions: {
+      //     skipBackup: true,
+      //     path: 'images',
+      //   },
+      // };
+      // FilePickerManager.showFilePicker(null, async (response) => {
+      //   console.log('Response = ', response.path);
+      //   if (response.path !== undefined) {
+      // dispatch({
+      //   type: PATH_AUDIO,
+      //   pathAudio: response.path,
+      //   fileName: response.fileName,
+      // });
+      //   const reference = storage().ref('audio/' + response.fileName);
+      //   await reference.putFile(response.path);
+      //   if (response.didCancel) {
+      //     console.log('User cancelled file picker');
+      //   } else if (response.error) {
+      //     console.log('FilePickerManager Error: ', response.error);
+      //   } else {
+      //     this.setState({
+      //       file: response,
+      //     });
+      //   }
+      //   } else {
+      //     Alert.alert('Yêu cầu chọn đúng file nhạc !!!');
+      //   }
+      // });
     },
     onChangeTextTitle: (text) => {
       dispatch({type: VALUE_TITLE, valueTitle: text});

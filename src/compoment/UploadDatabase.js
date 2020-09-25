@@ -56,7 +56,7 @@ export default class UploadDatabase extends PureComponent {
       modalVisible,
       dispathModalVisible,
     } = this.props;
-    // console.log(modalVisible);
+    console.log(pathImages);
     return checkLongding ? (
       <View style={styles.container}>
         <View style={styles.viewContainer}>

@@ -12,7 +12,6 @@ const connectState = (state) => {
   };
 };
 const handlePlayPause = async (arraysBloc) => {
-  // console.log(playlistData);
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack == null) {
     await TrackPlayer.reset();
@@ -57,6 +56,8 @@ const conectStateDispatch = (dispatch) => {
       });
     },
     setEventClickPlaying: async (setPlaying, arraysBloc) => {
+      console.log(setPlaying);
+      console.log(arraysBloc);
       handlePlayPause(arraysBloc);
       dispatch({type: PLAYING, playing: setPlaying});
     },
