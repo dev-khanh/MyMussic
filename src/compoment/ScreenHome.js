@@ -21,6 +21,8 @@ class ScreenHome extends PureComponent {
         const durationState = this.props.currentDuration;
         const timeMussic = this.props.timeMussic;
         const timepercent = this.props.timepercent;
+        const playingTitle = this.props.playingTitle;
+        const arraysBloc = this.props.arraysBloc;
         const animation = {
             miniPos,
             positionY,
@@ -28,6 +30,8 @@ class ScreenHome extends PureComponent {
             durationState,
             timeMussic,
             timepercent,
+            playingTitle,
+            arraysBloc,
         };
         return (
             <Animated.View style={styles.container}>
@@ -61,6 +65,8 @@ const connectState = (state) => {
         currentDuration: state.reducerState.currentDuration,
         timeMussic: state.reducerState.timeMussic,
         timepercent: state.reducerState.timepercent,
+        playingTitle: state.reducerState.playingTitle,
+        arraysBloc: state.reducerDatabase.arraysBloc,
     };
 };
 export default connect(connectState)(ScreenHome);

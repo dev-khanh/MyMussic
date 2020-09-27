@@ -1,11 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { connect } from 'react-redux';
 import MainApp from '../compoment/MainApp';
-import { PLAYING, UPLOAD_DURATION, TIME_MUSSIC } from '../action/ActionType';
+import { PLAYING, UPLOAD_DURATION, TIME_MUSSIC, PLAYING_TITLE } from '../action/ActionType';
 import TrackPlayer from 'react-native-track-player';
 import playlistData from '../compoment/Demo/playlist.json';
 import { CallEventData } from '../action';
-import { timeFormat } from '../utils/';
 
 var interval;
 const connectState = (state) => {
@@ -34,6 +33,7 @@ const handlePlayPausessss = async (arraysBloc, dispatch) => {
   }, 100);
 };
 const handlePlayPause = async (arraysBloc) => {
+  // console.log(arraysBloc.length);
   const currentTrack = await TrackPlayer.getCurrentTrack();
   if (currentTrack == null) {
     await TrackPlayer.reset();
@@ -41,6 +41,7 @@ const handlePlayPause = async (arraysBloc) => {
     await TrackPlayer.play();
   } else {
     const playbackState = await TrackPlayer.getState();
+    // console.log(playbackState);
     if (playbackState === TrackPlayer.STATE_PAUSED) {
       await TrackPlayer.play();
     } else {
@@ -108,6 +109,8 @@ const conectStateDispatch = (dispatch) => {
       await TrackPlayer.add(item);
       await TrackPlayer.play();
       dispatch({ type: PLAYING, playing: true });
+      // console.log(item.title);
+      dispatch({ type: PLAYING_TITLE, playingTitle: item.title });
     },
   };
 };
