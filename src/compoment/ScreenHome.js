@@ -18,10 +18,16 @@ const { width, height } = Dimensions.get('window');
 class ScreenHome extends PureComponent {
     render() {
         const playing = this.props.playing;
+        const durationState = this.props.currentDuration;
+        const timeMussic = this.props.timeMussic;
+        const timepercent = this.props.timepercent;
         const animation = {
             miniPos,
             positionY,
             playing,
+            durationState,
+            timeMussic,
+            timepercent,
         };
         return (
             <Animated.View style={styles.container}>
@@ -29,7 +35,7 @@ class ScreenHome extends PureComponent {
                 <Slider {...animation} />
                 <Record {...animation} setPlaying={(d) => this.props.setPlaying(d)} />
                 <Title {...animation} />
-                <Controllers onClickPlayPause={(d) => this.props.onClickPlayPause(d)} playing={playing} onPressPrev={this.props.onPressPrev} onPressNext={this.props.onPressNext}/>
+                <Controllers onClickPlayPause={(d) => this.props.onClickPlayPause(d)} playing={playing} onPressPrev={this.props.onPressPrev} onPressNext={this.props.onPressNext} />
                 <Handle {...animation} {..._panResponder.panHandlers} />
                 {Platform.OS === 'android' && <AndroidStatusBar {...animation} />}
             </Animated.View>
@@ -52,6 +58,9 @@ const styles = {
 const connectState = (state) => {
     return {
         name: state.reducerState.name,
+        currentDuration: state.reducerState.currentDuration,
+        timeMussic: state.reducerState.timeMussic,
+        timepercent: state.reducerState.timepercent,
     };
 };
 export default connect(connectState)(ScreenHome);

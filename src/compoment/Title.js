@@ -1,15 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-// import {useSelector} from 'react-redux';
 import { Animated, Text, Dimensions } from 'react-native';
-// import DeviceInfo from 'react-native-device-info';
-
 const { width: windowWidth } = Dimensions.get('window');
-// const isiPhoneX = /iPhone X/g.test(DeviceInfo.getDeviceName());
-
 export default function Title({ positionY, miniPos }) {
-	//   const {track} = useSelector((state) => state.Player);
-
 	const top = positionY.interpolate({
 		inputRange: [-40, miniPos],
 		// outputRange: [miniPos / 2 + 160 - (isiPhoneX ? 70 : 0), 30],

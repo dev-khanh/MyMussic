@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -9,34 +9,29 @@ import {
   Button,
   ActivityIndicator,
   Modal,
-  Alert,
   Text,
-  TouchableHighlight,
   TouchableWithoutFeedback,
   FlatList,
+  BackHandler,
 } from 'react-native';
-const {width, height} = Dimensions.get('window');
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
+const { width, height } = Dimensions.get('window');
 export default class UploadDatabase extends PureComponent {
-  state = {
-    modalVisible: false,
-  };
+  constructor(props) {
+    super(props);
+    this.handleBackButton = this.handleBackButton.bind(this);
+    this.state = {
+      modalVisible: false,
+    };
+  }
   componentDidMount() {
     this.props.setLongdding();
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+  handleBackButton() {
+    return true;
   }
   render() {
     const {
@@ -56,7 +51,6 @@ export default class UploadDatabase extends PureComponent {
       modalVisible,
       dispathModalVisible,
     } = this.props;
-    console.log(pathImages);
     return checkLongding ? (
       <View style={styles.container}>
         <View style={styles.viewContainer}>
@@ -128,8 +122,8 @@ export default class UploadDatabase extends PureComponent {
         )}
       </View>
     ) : (
-      this.handlLogin()
-    );
+        this.handlLogin()
+      );
   }
   hadnlViewModel = (
     arraysBloc,
@@ -142,39 +136,47 @@ export default class UploadDatabase extends PureComponent {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        >
-          {/* TouchableWithoutFeedback  Dùng để close Model */}
-        <TouchableWithoutFeedback onPress={() => dispathModalVisible(false)}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              {/* <TouchableHighlight
-                style={styles.touchabHighLight()}
-                onPress={() => {
-                  this.setState({
-                    modalVisible: !this.state.modalVisible,
-                  });
-                }}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </TouchableHighlight> */}
-              <View style={{width: width}}>
-                <FlatList
-                  data={arraysBloc}
-                  renderItem={(item) =>
-                    this.renderItem(
-                      item.item,
-                      createTwoButtonAlert,
-                      modalVisible,
-                    )
-                  }
-                  keyExtractor={(item) => item.key}
-                />
-              </View>
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
+      >
+        {arraysBloc.length > 0 ? this.handlModelFlatList(dispathModalVisible, arraysBloc, createTwoButtonAlert, modalVisible)
+          : this.handlModelFlatListNull(dispathModalVisible, arraysBloc, createTwoButtonAlert, modalVisible)}
       </Modal>
     );
   };
+  handlModelFlatListNull = (dispathModalVisible, arraysBloc, createTwoButtonAlert, modalVisible) => {
+    return (
+      <TouchableWithoutFeedback onPress={() => dispathModalVisible(false)}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalViewNull}>
+            <Text style={styles.modalText}>Danh sách của bạn đang trống !!!</Text>
+          </View>
+        </View>
+      </TouchableWithoutFeedback >
+    );
+  }
+  handlModelFlatList = (dispathModalVisible, arraysBloc, createTwoButtonAlert, modalVisible) => {
+    return (
+      <TouchableWithoutFeedback onPress={() => dispathModalVisible(false)}>
+        {/* TouchableWithoutFeedback  Dùng để close Model */}
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{ width: width }}>
+              <FlatList
+                data={arraysBloc}
+                renderItem={(item) =>
+                  this.renderItem(
+                    item.item,
+                    createTwoButtonAlert,
+                    modalVisible,
+                  )
+                }
+                keyExtractor={(item) => item.key}
+              />
+            </View>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  }
   renderItem = (item, createTwoButtonAlert, modalVisible) => {
     return (
       <TouchableOpacity
@@ -182,7 +184,7 @@ export default class UploadDatabase extends PureComponent {
           createTwoButtonAlert(item.title, item.key, modalVisible)
         }>
         <View style={styles.item}>
-          <Image source={{uri: item.artwork}} style={styles.imagesView} />
+          <Image source={{ uri: item.artwork }} style={styles.imagesView} />
           <Text style={styles.title}>{item.title}</Text>
         </View>
       </TouchableOpacity>
@@ -201,7 +203,7 @@ export default class UploadDatabase extends PureComponent {
   };
 }
 const styles = {
-  imagesView: {width: 90, height: 90, marginRight: 10},
+  imagesView: { width: 90, height: 90, marginRight: 10 },
   touchabHighLight: () => ({
     ...styles.openButton,
     backgroundColor: '#2196F3',
@@ -212,6 +214,22 @@ const styles = {
     alignItems: 'center',
     marginTop: 22,
   },
+  modalViewNull: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+
   modalView: {
     width: width,
     height: height * 0.5,
@@ -283,7 +301,7 @@ const styles = {
     width: width * 0.9,
     alignItems: 'flex-end',
   },
-  viewMarginTop: {marginTop: 10, flexDirection: 'row'},
+  viewMarginTop: { marginTop: 10, flexDirection: 'row' },
   viewTextInputTitle: {
     flex: 1,
     marginTop: 10,

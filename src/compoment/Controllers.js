@@ -1,23 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React, { PureComponent } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
-
-// import TrackPlayer from 'react-native-track-player';
-
-// import { setUserPlaying, setReplay, setShuffle } from 'reducers/Player/actions';
-
 import { Play, Pause, Skip, Replay, Shuffle } from '../Icons';
-
 class Controller extends PureComponent {
 	render() {
-		// const dispatch = useDispatch();
-		// const { playing, shuffle, replay } = useSelector((state) => state.Player);
-
-		const onClickPlayPause = () => {
-			// dispatch(setUserPlaying(!playing));
-		};
-
 		const selectFill = (bool) => {
 			return bool ? 'rgb(225, 47, 129)' : 'rgb(255, 255, 255)';
 		};
@@ -29,21 +15,6 @@ class Controller extends PureComponent {
 		const onPressReplay = () => {
 			// dispatch(setReplay(!replay));
 		};
-
-		const onPressPrev = async () => {
-			// const time = await TrackPlayer.getPosition();
-
-			// if (time <= 3) {
-			// 	TrackPlayer.skipToPrevious();
-			// } else {
-			// 	TrackPlayer.seekTo(0);
-			// }
-		};
-
-		const onPressNext = () => {
-			// TrackPlayer.skipToNext();
-		};
-
 		return (
 			<View style={styles.container}>
 				<TouchableWithoutFeedback onPress={onPressShuffle}>

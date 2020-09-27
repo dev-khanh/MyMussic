@@ -9,6 +9,8 @@ import {
   PATH_AUDIO,
   LONGDING,
   MODEL,
+  UPLOAD_DURATION,
+  TIME_MUSSIC,
 } from '../action/ActionType';
 let appState = {
   playing: false,
@@ -21,6 +23,9 @@ let appState = {
   fileName: '',
   checkLongding: false,
   modalVisible: false,
+  currentDuration: 0,
+  timeMussic: 0,
+  timepercent: 0,
 };
 const reducerState = (state = appState, action) => {
   switch (action.type) {
@@ -69,6 +74,17 @@ const reducerState = (state = appState, action) => {
       return {
         ...state,
         modalVisible: action.modalVisible,
+      };
+    case UPLOAD_DURATION:
+      return {
+        ...state,
+        currentDuration: action.currentDuration,
+      };
+    case TIME_MUSSIC:
+      return {
+        ...state,
+        timeMussic: action.timeMussic,
+        timepercent: action.timepercent,
       };
   }
   return state;
