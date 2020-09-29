@@ -1,15 +1,8 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-// import {useSelector} from 'react-redux';
 import { Animated, Text, Dimensions } from 'react-native';
-// import DeviceInfo from 'react-native-device-info';
-
 const { width: windowWidth } = Dimensions.get('window');
-// const isiPhoneX = /iPhone X/g.test(DeviceInfo.getDeviceName());
-
-export default function Title({ positionY, miniPos }) {
-	//   const {track} = useSelector((state) => state.Player);
-
+export default function Title({ positionY, miniPos, playingTitle, arraysBloc }) {
 	const top = positionY.interpolate({
 		inputRange: [-40, miniPos],
 		// outputRange: [miniPos / 2 + 160 - (isiPhoneX ? 70 : 0), 30],
@@ -30,12 +23,10 @@ export default function Title({ positionY, miniPos }) {
 		inputRange: [0, miniPos],
 		outputRange: [50, 0],
 	});
-
 	return (
 		<Animated.View style={styles.animation_view(top, right, width, paddingHorizontal)}>
 			<Text numberOfLines={1} style={styles.title}>
-				{/* {track ? track.title : 'Not Playing'} */}
-				{'Not Playing'}
+				{playingTitle === '' ? arraysBloc.length + ' Bài Nhạc Trẻ Hay Nhất' : playingTitle}
 			</Text>
 		</Animated.View>
 	);

@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 // import MainAppContainer from './src/container/MainAppContainer';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import store from './src/reducers';
-import database, {firebase} from '@react-native-firebase/database';
+import database, { firebase } from '@react-native-firebase/database';
 import MainNavigation from './src/utils/MainNavigation';
-import {utils} from '@react-native-firebase/app';
+import { utils } from '@react-native-firebase/app';
 import storage from '@react-native-firebase/storage';
 import UpdateContaner from './src/container/UpdateContainer';
 var RNFS = require('react-native-fs');

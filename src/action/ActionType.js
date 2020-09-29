@@ -12,4 +12,6 @@ export const PUT_LIST_MUSIC = 'PUT_LIST_MUSIC';
 export const LONGDING = 'LONGDING';
 export const EVENT_DELETE_DB = 'EVENT_DELETE_DB';
 export const MODEL = 'MODEL';
-
+export const UPLOAD_DURATION = 'UPLOAD_DURATION';
+export const TIME_MUSSIC = 'TIME_MUSSIC';
+export const PLAYING_TITLE = 'PLAYING_TITLE';

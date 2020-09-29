@@ -9,7 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
-import DATA from './Demo/playlist.json';
 export default class CardViewFlatList extends PureComponent {
   render() {
     return (

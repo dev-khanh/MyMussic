@@ -1,95 +1,25 @@
 /* eslint-disable prettier/prettier */
-import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import React, { useState } from 'react';
 import {
   Dimensions,
   PanResponder,
   View,
   Animated,
   Text,
-  Platform,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
-import Svg, {Circle, G, Path} from 'react-native-svg';
-import {timeFormat, polarToCartesian, cartesianToPolar} from '../utils/';
-import {Colors} from '../constants';
+import Svg, { Circle, G, Path } from 'react-native-svg';
+import { timeFormat, polarToCartesian } from '../utils/';
+import { Colors } from '../constants';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const padding = 20;
 const r = (width - padding * 2) / 2;
 const cx = r + padding;
 const cy = padding;
 const height = (width + padding * 2) / 2;
-
-let interval;
-
-const STATE_READY = Platform.OS === 'ios' ? 'ready' : 6;
-
-export default function Slider({positionY, miniPos}) {
-  // const {state, track, playing} = useSelector((state) => state.Player);
-  //   const {track} = useSelector((state) => state.Player);
-  const [percent, setPercent] = useState(0);
-  const [time, setTime] = useState(null);
+export default function Slider({ positionY, miniPos, durationState, timeMussic, timepercent }) {
   const [moveSlider, setMoveSlider] = useState(false);
-  const [duration, setDuration] = useState(null);
-  //   const [changePlaybackTrack] = useState(null);
-  useEffect(() => {
-    // clearInterval(interval);
-
-    //     const times = async () => {
-    //     //   const current = Math.floor(await TrackPlayer.getPosition());
-
-    //       if (!playing || current < 1) {
-    //         setPercent(0);
-    //         setTime(0);
-    //       }
-    //     };
-
-    //     switch (state) {
-    //       case STATE_READY:
-    //         // user playing state
-
-    //         times();
-    //         break;
-    //       case TrackPlayer.STATE_PLAYING:
-    //         if (!moveSlider) {
-    //           interval = setInterval(async () => {
-    //             const current = Math.floor(await TrackPlayer.getPosition());
-
-    //             if (duration && current) {
-    //               setTime(current);
-    //               setPercent((current * 100) / Math.floor(duration));
-    //             }
-    //           }, 100);
-    //         }
-    //         break;
-    //     }
-    changePlaybackTrack();
-  }, [moveSlider]);
-
-  //   useEffect(() => {
-  //     changePlaybackTrack();
-  //   }, [track]);
-  // changePlaybackTrack();
-  const changePlaybackTrack = async () => {
-    const currentDuration = await TrackPlayer.getDuration();
-    console.log(currentDuration);
-    setDuration(currentDuration);
-  };
-
-  const setProgress = (x, y) => {
-    // if (!track || state === STATE_READY) {
-    //   return;
-    // }
-
-    const angleToPercent = (cartesianToPolar(x, y, {cy, cx}) / 180) * 100;
-
-    setTime((duration / 100) * angleToPercent);
-    setPercent(angleToPercent);
-
-    return true;
-  };
-
   const _panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onMoveShouldSetPanResponder: () => true,
@@ -99,31 +29,24 @@ export default function Slider({positionY, miniPos}) {
     },
     onPanResponderRelease: () => {
       // end
-      TrackPlayer.seekTo((duration / 100) * percent);
+      TrackPlayer.seekTo((durationState / 100) * timeMussic);
 
       setMoveSlider(false);
     },
-    onPanResponderGrant: ({nativeEvent: {locationX, locationY}}) =>
-      setProgress(locationX, locationY),
-    onPanResponderMove: ({nativeEvent: {locationX, locationY}}) =>
-      setProgress(locationX, locationY),
   });
-
-  const {x, y} = polarToCartesian(
-    ((percent > 100 ? 100 : percent) * 180) / 100,
-    {cy, cx, r},
+  const timePerce = (timepercent * 100) / Math.floor(durationState);
+  const { x, y } = polarToCartesian(
+    ((timePerce > 100 ? 100 : timePerce) * 180) / 100,
+    { cy, cx, r },
   );
-  // console.log(time + '     -     ' + timeFormat(time));
-  // console.log(duration + '        -      ' + Math.floor(duration));
-  // console.log(timeFormat(duration === null ? null : Math.floor(duration)));
   return (
     <Animated.View style={styles.animatedView(positionY, miniPos)}>
       <Text numberOfLines={1} style={moveSlider && styles.animatedText()}>
-        {timeFormat(time)}
+        {timeFormat(timeMussic)}
       </Text>
 
       <Text numberOfLines={1} style={styles.duration}>
-        {timeFormat(duration === null ? null : Math.floor(duration))}
+        {timeFormat(durationState === null ? null : Math.floor(durationState))}
       </Text>
 
       <View>
@@ -140,15 +63,14 @@ export default function Slider({positionY, miniPos}) {
               fill="none"
               strokeWidth={5}
               stroke={Colors.primary}
-              d={`M${padding} ${cy} A ${r} ${r} 0 0 0 ${x} ${y}`}
+              d={`M${padding} ${cy} A ${r} ${r} 0 0 0 ${isNaN(x) ? 0 : x} ${isNaN(y) ? 0 : y}`}
             />
-
             <Circle
               cx="0"
               cy="0"
               r={10}
-              x={Math.abs(x)}
-              y={Math.abs(y)}
+              x={Math.abs(isNaN(x) ? 0 : x)}
+              y={Math.abs(isNaN(y) ? 0 : y)}
               fill={Colors.primary}
             />
           </G>
